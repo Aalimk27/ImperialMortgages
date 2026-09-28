@@ -1,0 +1,979 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Imperial Mortgages</title>
+<meta name="description" content="Imperial Mortgages — mortgage advisory in Dubai. Compare UAE bank offers, calculate your monthly payment and get pre-approved.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anybody:ital,wdth,wght@0,50..150,100..900;1,50..150,100..900&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:ital,wdth,wght@0,75..100,400..700;1,75..100,400..700&family=Noto+Kufi+Arabic:wght@400;700&display=swap">
+<style>
+:root{
+  --bg:#F3F4F1;
+  --surface:#FFFFFF;
+  --ink:#0B0B12;
+  --muted:#5B5D6E;
+  --line:rgba(11,11,18,.14);
+  --blue:#1F2BFF;
+  --blue-ink:#F3F4F1;
+  --blue-soft:rgba(31,43,255,.09);
+  --sand:#E6D5B4;
+  --sand-ink:#2A2112;
+  --display:"Anybody", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --body:"Instrument Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --arabic:"Noto Kufi Arabic", "Geeza Pro", Tahoma, sans-serif;
+  --gutter:clamp(16px, 4vw, 56px);
+  --max:1440px;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#07071A; --surface:#10112E; --ink:#ECEDF5; --muted:#9C9EBC;
+    --line:rgba(236,237,245,.15); --blue:#3A45FF; --blue-ink:#F3F4F1;
+    --blue-soft:rgba(90,100,255,.16); --sand:#E6D5B4; --sand-ink:#2A2112;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#07071A; --surface:#10112E; --ink:#ECEDF5; --muted:#9C9EBC;
+  --line:rgba(236,237,245,.15); --blue:#3A45FF; --blue-ink:#F3F4F1;
+  --blue-soft:rgba(90,100,255,.16); --sand:#E6D5B4; --sand-ink:#2A2112;
+  color-scheme:dark;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth; overflow-x:clip}
+[hidden]{display:none!important}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:var(--body); font-size:17px; line-height:1.55;
+  -webkit-font-smoothing:antialiased; overflow-x:clip;
+  transition:background-color .5s ease, color .5s ease;
+}
+::selection{background:var(--blue); color:var(--blue-ink)}
+a{color:inherit}
+button,input,select{font:inherit; color:inherit}
+:focus-visible{outline:2px solid var(--blue); outline-offset:3px}
+.wrap{max-width:var(--max); margin-inline:auto; padding-inline:var(--gutter)}
+.mono{font-family:var(--mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase}
+.muted{color:var(--muted)}
+h1,h2,h3{font-family:var(--display); font-weight:800; margin:0; text-wrap:balance; line-height:.95; letter-spacing:-.01em}
+h2{font-size:clamp(44px, 8vw, 120px); font-variation-settings:"wdth" 70}
+h2 em{font-style:italic; font-variation-settings:"wdth" 120; font-weight:300; color:var(--blue)}
+p{margin:0}
+
+/* progress */
+.progress{position:fixed; inset:0 0 auto 0; height:3px; z-index:60; pointer-events:none}
+.progress span{display:block; height:100%; width:100%; background:var(--blue); transform-origin:0 50%; transform:scaleX(0)}
+
+/* nav */
+.nav{
+  position:sticky; top:env(safe-area-inset-top,0px); z-index:50;
+  background:color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+}
+.nav .wrap{display:flex; align-items:center; gap:24px; height:64px}
+.logo{display:flex; align-items:baseline; gap:8px; text-decoration:none; white-space:nowrap}
+.logo b{font-family:var(--display); font-weight:900; font-size:22px; font-variation-settings:"wdth" 140; letter-spacing:-.02em; transition:font-variation-settings .4s ease}
+.logo:hover b{font-variation-settings:"wdth" 60}
+.logo span{font-family:var(--mono); font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--muted)}
+.nav-links{display:flex; gap:22px; margin-left:auto}
+.nav-links a{text-decoration:none; font-size:15px; position:relative}
+.nav-links a::after{content:""; position:absolute; left:0; right:0; bottom:-3px; height:1.5px; background:var(--blue); transform:scaleX(0); transform-origin:right; transition:transform .35s ease}
+.nav-links a:hover::after{transform:scaleX(1); transform-origin:left}
+.clock{display:flex; gap:6px; align-items:center; color:var(--muted); white-space:nowrap}
+.clock i{width:7px; height:7px; border-radius:50%; background:var(--blue); display:inline-block; animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.25}}
+.theme{
+  display:flex; align-items:center; gap:8px; border:1px solid var(--line); border-radius:999px;
+  padding:5px 12px 5px 6px; background:transparent; cursor:pointer; white-space:nowrap;
+}
+.theme .knob{width:18px; height:18px; border-radius:50%; background:var(--ink); position:relative; overflow:hidden}
+.theme .knob::after{content:""; position:absolute; inset:0; border-radius:50%; background:var(--bg); transform:translate(60%,-40%); transition:transform .5s ease}
+:root[data-theme="light"] .theme .knob::after{transform:translate(120%,-120%)}
+.btn{
+  display:inline-flex; align-items:center; gap:10px; justify-content:center;
+  padding:14px 22px; border-radius:999px; border:1.5px solid var(--ink);
+  text-decoration:none; font-weight:600; font-size:15px; cursor:pointer; background:transparent;
+  transition:background-color .25s, color .25s, border-color .25s; white-space:nowrap;
+}
+.btn:hover{background:var(--ink); color:var(--bg)}
+.btn.primary{background:var(--blue); border-color:var(--blue); color:var(--blue-ink)}
+.btn.primary:hover{background:var(--ink); border-color:var(--ink); color:var(--bg)}
+.btn.small{padding:9px 16px; font-size:14px}
+.btn .arr{display:inline-block; transition:transform .3s}
+.btn:hover .arr{transform:translateX(4px)}
+
+/* hero */
+.hero{padding-block:clamp(28px,5vw,64px) clamp(40px,6vw,80px); position:relative}
+.hero-top{display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap}
+.wm{
+  width:100%; overflow:hidden; line-height:.8; margin-block:clamp(18px,3vw,36px) clamp(10px,2vw,24px);
+  font-family:var(--display); user-select:none; touch-action:pan-y; padding-block:.04em;
+}
+.wm .inner{display:inline-flex; white-space:nowrap}
+.wm .l{display:inline-block; font-weight:800; font-variation-settings:"wdth" 100, "wght" 800; will-change:font-variation-settings}
+.wm .l:nth-child(odd){color:var(--ink)}
+.hero-grid{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.45fr); gap:clamp(24px,5vw,80px); align-items:end}
+.sub-mark{display:flex; flex-direction:column; gap:14px}
+.sub-mark .mortgages{font-family:var(--display); font-weight:300; font-size:clamp(22px,3vw,40px); font-variation-settings:"wdth" 150; letter-spacing:.12em; text-transform:uppercase; line-height:1}
+.sub-mark .ar{font-family:var(--arabic); font-size:clamp(18px,2vw,24px); color:var(--muted); direction:rtl; text-align:left}
+.lede h1{font-size:clamp(34px,4.6vw,68px); font-weight:700; font-variation-settings:"wdth" 85; line-height:1.02}
+.slot{display:inline-grid; vertical-align:bottom; overflow:hidden; color:var(--blue); font-style:italic; padding-right:.08em}
+.slot span{grid-area:1/1; transition:transform .7s cubic-bezier(.7,0,.2,1), opacity .7s; white-space:nowrap}
+.slot span.out{transform:translateY(-105%); opacity:0}
+.slot span.wait{transform:translateY(105%); opacity:0}
+.lede p{margin-top:20px; max-width:56ch; font-size:18px; color:var(--muted)}
+.cta-row{display:flex; gap:12px; flex-wrap:wrap; margin-top:28px}
+.facts{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:clamp(16px,3vw,40px); margin-top:clamp(40px,6vw,72px); padding-top:24px; border-top:1px solid var(--line)}
+.fact b{display:block; font-family:var(--display); font-size:clamp(34px,4.5vw,64px); font-weight:800; font-variation-settings:"wdth" 60; line-height:1; letter-spacing:-.01em}
+.fact span{display:block; margin-top:8px; font-size:14px; color:var(--muted); max-width:28ch}
+
+/* ticker */
+.ticker{background:var(--blue); color:var(--blue-ink); overflow:hidden; padding-block:16px; position:relative}
+.ticker .track{display:flex; gap:48px; width:max-content; animation:tick 42s linear infinite}
+.ticker:hover .track{animation-play-state:paused}
+.ticker .item{display:flex; gap:14px; align-items:baseline; white-space:nowrap}
+.ticker .item b{font-family:var(--display); font-weight:700; font-size:26px; font-variation-settings:"wdth" 110}
+.ticker .item .mono{opacity:.8}
+.ticker .star{font-family:var(--display); font-size:22px; opacity:.6}
+@keyframes tick{to{transform:translateX(-50%)}}
+.ticker-note{display:block; text-align:right; padding-top:10px; color:var(--muted); font-size:11px}
+
+/* sections */
+section.block{padding-block:clamp(80px,11vw,150px)}
+.head{display:grid; grid-template-columns:minmax(0,1.4fr) minmax(0,1fr); gap:24px 48px; align-items:end; margin-bottom:clamp(36px,5vw,64px)}
+.head p{max-width:46ch; color:var(--muted)}
+.eyebrow{display:flex; gap:10px; align-items:center; margin-bottom:18px; color:var(--blue)}
+.eyebrow::before{content:""; width:28px; height:1.5px; background:currentColor}
+
+/* calculator */
+.calc{background:var(--blue); color:var(--blue-ink); border-radius:28px; padding:clamp(20px,3.5vw,48px); position:relative; overflow:hidden}
+.calc .muted{color:rgba(243,244,241,.72)}
+.tabs{display:inline-flex; background:rgba(0,0,0,.18); border-radius:999px; padding:4px; margin-bottom:28px; flex-wrap:wrap}
+.tabs button{border:0; background:transparent; padding:10px 18px; border-radius:999px; cursor:pointer; font-weight:600; font-size:15px; color:var(--blue-ink)}
+.tabs button[aria-selected="true"]{background:var(--blue-ink); color:#1F2BFF}
+.calc-grid{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.1fr); gap:clamp(28px,4vw,64px)}
+.controls{display:flex; flex-direction:column; gap:26px}
+.seg{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); border:1.5px solid rgba(243,244,241,.4); border-radius:14px; overflow:hidden}
+.seg button{border:0; background:transparent; padding:12px 8px; cursor:pointer; font-size:14px; font-weight:600; color:var(--blue-ink); border-right:1.5px solid rgba(243,244,241,.4); line-height:1.2}
+.seg button:last-child{border-right:0}
+.seg button[aria-checked="true"]{background:var(--blue-ink); color:#1F2BFF}
+.field{display:flex; flex-direction:column; gap:10px}
+.field .top{display:flex; justify-content:space-between; align-items:baseline; gap:12px; flex-wrap:wrap}
+.field label{font-size:15px; font-weight:600}
+.field output{font-family:var(--mono); font-size:15px; font-variant-numeric:tabular-nums}
+.field small{font-size:13px}
+input[type=range]{
+  -webkit-appearance:none; appearance:none; width:100%; height:26px; background:transparent; cursor:pointer; --p:50%;
+}
+input[type=range]::-webkit-slider-runnable-track{height:4px; border-radius:4px; background:linear-gradient(90deg, #F3F4F1 var(--p), rgba(243,244,241,.28) var(--p))}
+input[type=range]::-moz-range-track{height:4px; border-radius:4px; background:rgba(243,244,241,.28)}
+input[type=range]::-moz-range-progress{height:4px; border-radius:4px; background:#F3F4F1}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; width:24px; height:24px; margin-top:-10px; border-radius:50%; background:#F3F4F1; border:5px solid #0B0B12; transition:transform .2s}
+input[type=range]::-moz-range-thumb{width:14px; height:14px; border-radius:50%; background:#F3F4F1; border:5px solid #0B0B12}
+input[type=range]:active::-webkit-slider-thumb{transform:scale(1.25)}
+.check{display:flex; gap:10px; align-items:center; font-size:14px; cursor:pointer}
+.check input{accent-color:#0B0B12; width:18px; height:18px}
+
+.result{display:flex; flex-direction:column; gap:22px}
+.big{display:flex; flex-direction:column; gap:4px}
+.big .num{font-family:var(--display); font-weight:800; font-size:clamp(56px,9vw,132px); line-height:.9; font-variation-settings:"wdth" 70; font-variant-numeric:tabular-nums; letter-spacing:-.02em; overflow-wrap:anywhere}
+.big .num small{font-size:.28em; font-weight:500; font-variation-settings:"wdth" 110; letter-spacing:.04em; margin-right:.3em; vertical-align:.25em}
+.kv{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px 24px}
+.kv div{display:flex; flex-direction:column; gap:2px; padding-top:10px; border-top:1px solid rgba(243,244,241,.25)}
+.kv b{font-family:var(--mono); font-weight:500; font-size:16px; font-variant-numeric:tabular-nums}
+.bar{display:flex; height:14px; border-radius:8px; overflow:hidden; background:rgba(0,0,0,.2)}
+.bar span{display:block; height:100%; transition:width .6s cubic-bezier(.2,.8,.2,1)}
+.bar .p{background:#F3F4F1}
+.bar .i{background:#0B0B12}
+.legend{display:flex; gap:18px; font-size:13px; flex-wrap:wrap}
+.legend i{display:inline-block; width:10px; height:10px; border-radius:3px; margin-right:6px; vertical-align:-1px}
+.cash{background:#F3F4F1; color:#0B0B12; border-radius:18px; padding:20px 22px}
+.cash h3{font-family:var(--body); font-weight:700; font-size:15px; letter-spacing:0; line-height:1.3; margin-bottom:10px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap}
+.cash ul{list-style:none; margin:0; padding:0; font-size:14px}
+.cash li{display:flex; justify-content:space-between; gap:16px; padding:6px 0; border-bottom:1px dashed rgba(11,11,18,.15)}
+.cash li b{font-family:var(--mono); font-weight:500; font-variant-numeric:tabular-nums; white-space:nowrap}
+.cash .total{border-bottom:0; padding-top:10px; font-weight:700; font-size:16px}
+.chips{display:flex; gap:8px; flex-wrap:wrap}
+.chip{display:inline-flex; gap:8px; align-items:center; font-size:13px; font-weight:600; padding:7px 12px; border-radius:999px; background:rgba(0,0,0,.2)}
+.chip.gold{background:var(--sand); color:var(--sand-ink)}
+.calc-foot{margin-top:28px; font-size:12px; color:rgba(243,244,241,.7); max-width:90ch}
+.flash{animation:flash 1s ease}
+@keyframes flash{30%{box-shadow:0 0 0 8px rgba(31,43,255,.35)}}
+
+/* services */
+.svc{border-top:1px solid var(--line)}
+.svc details{border-bottom:1px solid var(--line); position:relative}
+.svc summary{
+  list-style:none; cursor:pointer; display:grid; grid-template-columns:70px minmax(0,1fr) auto; align-items:center; gap:16px;
+  padding-block:clamp(18px,2.4vw,30px); position:relative; z-index:1;
+}
+.svc summary::-webkit-details-marker{display:none}
+.svc details::before{content:""; position:absolute; inset:0; background:var(--blue); transform:scaleY(0); transform-origin:bottom; transition:transform .45s cubic-bezier(.7,0,.2,1); z-index:0}
+.svc details:hover::before, .svc details[open]::before{transform:scaleY(1)}
+.svc details:hover summary, .svc details[open] summary, .svc details[open] .body{color:var(--blue-ink)}
+.svc .t{font-family:var(--display); font-weight:700; font-size:clamp(28px,5vw,72px); line-height:1; font-variation-settings:"wdth" 75; transition:font-variation-settings .5s cubic-bezier(.7,0,.2,1), transform .5s}
+.svc details:hover .t, .svc details[open] .t{font-variation-settings:"wdth" 130; transform:translateX(12px)}
+.svc .n{padding-left:12px}
+.svc .plus{width:44px; height:44px; border-radius:50%; border:1.5px solid currentColor; display:grid; place-items:center; font-size:22px; transition:transform .4s; margin-right:12px}
+.svc details[open] .plus{transform:rotate(45deg)}
+.svc .body{position:relative; z-index:1; display:grid; grid-template-columns:70px minmax(0,1fr) minmax(0,1fr); gap:16px; padding-bottom:32px}
+.svc .body p{max-width:52ch}
+.svc .body ul{margin:0; padding-left:18px; font-size:15px}
+
+/* districts */
+.districts{display:flex; flex-wrap:wrap; gap:4px 28px; align-items:baseline}
+.district{
+  font-family:var(--display); font-weight:800; font-size:clamp(34px,6.4vw,96px); line-height:1.05;
+  border:0; background:none; padding:0; cursor:pointer; color:var(--ink); text-align:left;
+  font-variation-settings:"wdth" 60, "wght" 800; transition:font-variation-settings .5s cubic-bezier(.7,0,.2,1), color .3s;
+}
+.district:hover, .district:focus-visible{font-variation-settings:"wdth" 140, "wght" 300; color:var(--blue)}
+.district sup{font-family:var(--mono); font-size:12px; font-weight:400; letter-spacing:.06em; vertical-align:super; margin-left:4px; color:var(--muted); font-variation-settings:normal}
+.dist-note{margin-top:28px; font-size:14px}
+
+/* process */
+.process{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.3fr); gap:clamp(24px,6vw,96px)}
+.stick{position:sticky; top:calc(env(safe-area-inset-top,0px) + 110px); align-self:start}
+.bignum{font-family:var(--display); font-weight:900; font-size:clamp(120px,22vw,320px); line-height:.8; color:var(--blue); font-variation-settings:"wdth" 50; font-variant-numeric:tabular-nums; transition:font-variation-settings .6s cubic-bezier(.7,0,.2,1)}
+.bignum.pop{font-variation-settings:"wdth" 150}
+.steps{display:flex; flex-direction:column}
+.step{padding-block:clamp(28px,4vw,48px); border-top:1px solid var(--line); opacity:.4; transition:opacity .4s}
+.step.on{opacity:1}
+.step .mono{color:var(--blue)}
+.step h3{font-size:clamp(28px,3.6vw,48px); font-variation-settings:"wdth" 90; font-weight:700; margin:10px 0 12px}
+.step p{max-width:52ch; color:var(--muted)}
+
+/* faq */
+.faq{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.6fr); gap:clamp(24px,5vw,80px)}
+.faq details{border-top:1px solid var(--line)}
+.faq details:last-child{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none; cursor:pointer; display:flex; justify-content:space-between; gap:20px; padding-block:22px; font-size:clamp(18px,1.8vw,22px); font-weight:600}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+"; font-family:var(--mono); font-size:22px; color:var(--blue); transition:transform .3s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{padding-bottom:24px; max-width:62ch; color:var(--muted)}
+
+/* contact */
+.contact{background:var(--ink); color:var(--bg); border-radius:28px; padding:clamp(24px,5vw,72px); display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,1fr); gap:clamp(28px,5vw,72px)}
+.contact h2{font-size:clamp(52px,9vw,140px)}
+.contact h2 em{color:#6B74FF}
+.contact .lines{display:flex; flex-direction:column; gap:14px; margin-top:28px}
+.contact .lines div{display:flex; gap:12px; align-items:center; flex-wrap:wrap}
+.contact .lines .mono{opacity:.6; min-width:90px}
+.copy{border:1px solid color-mix(in srgb, var(--bg) 35%, transparent); background:transparent; color:var(--bg); border-radius:999px; font-size:12px; padding:4px 10px; cursor:pointer}
+form{display:flex; flex-direction:column; gap:16px}
+.in{display:flex; flex-direction:column; gap:6px}
+.in label{font-size:13px; opacity:.7}
+.in input,.in select{
+  background:transparent; border:0; border-bottom:1.5px solid color-mix(in srgb, var(--bg) 35%, transparent);
+  padding:10px 0; font-size:20px; color:var(--bg); border-radius:0;
+}
+.in select option{color:#0B0B12}
+.in input:focus,.in select:focus{outline:none; border-bottom-color:#6B74FF}
+.row2{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px}
+.contact .btn.primary:hover{background:var(--bg); color:var(--ink); border-color:var(--bg)}
+.err{color:#FF8A8A; font-size:13px; min-height:1em}
+.thanks{display:flex; flex-direction:column; gap:14px; justify-content:center}
+.thanks b{font-family:var(--display); font-size:clamp(34px,4vw,56px); font-variation-settings:"wdth" 80; line-height:1}
+
+/* footer */
+footer{padding-block:clamp(56px,8vw,100px) 28px}
+.foot-grid{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:28px; font-size:14px}
+.foot-grid h4{margin:0 0 10px; font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; font-weight:500; color:var(--muted)}
+.foot-grid a{display:block; text-decoration:none; padding:3px 0}
+.foot-grid a:hover{color:var(--blue)}
+.wm.foot{margin-block:clamp(40px,6vw,80px) 18px; color:var(--blue)}
+.legal{display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; font-size:12px; color:var(--muted)}
+
+/* cursor */
+.cursor{position:fixed; left:0; top:0; z-index:100; pointer-events:none; width:12px; height:12px; border-radius:50%; background:#fff; mix-blend-mode:difference; transform:translate(-50%,-50%); transition:width .3s, height .3s; display:none}
+.cursor.big{width:64px; height:64px}
+.cursor-label{position:fixed; left:0; top:0; z-index:101; pointer-events:none; font-family:var(--mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--blue-ink); background:var(--blue); padding:4px 8px; border-radius:999px; opacity:0; transition:opacity .2s; white-space:nowrap}
+@media (pointer:fine){ .cursor{display:block} }
+
+/* responsive */
+@media (max-width:980px){
+  .nav-links{display:none}
+  .theme{margin-left:auto}
+  .hero-grid,.head,.calc-grid,.process,.faq,.contact{grid-template-columns:minmax(0,1fr)}
+  .stick{position:relative; top:0}
+  .bignum{font-size:120px}
+  .foot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .svc .body{grid-template-columns:minmax(0,1fr); padding-inline:12px}
+  .svc summary{grid-template-columns:48px minmax(0,1fr) auto}
+}
+@media (max-width:600px){
+  body{font-size:16px}
+  .clock{display:none}
+  .nav .btn{display:none}
+  .facts{grid-template-columns:minmax(0,1fr)}
+  .kv,.row2{grid-template-columns:minmax(0,1fr)}
+  .seg button{font-size:12.5px; padding:10px 4px}
+  .svc .plus{width:34px; height:34px; font-size:18px; margin-right:6px}
+}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms!important; animation-iteration-count:1!important; transition-duration:.001ms!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<div class="progress" aria-hidden="true"><span id="prog"></span></div>
+<div class="cursor" id="cursor" aria-hidden="true"></div>
+<div class="cursor-label" id="cursorLabel" aria-hidden="true"></div>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Imperial Mortgages, back to top"><b>IMPERIAL</b><span>Mortgages</span></a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="#calculator">Calculator</a>
+      <a href="#services">Services</a>
+      <a href="#districts">Districts</a>
+      <a href="#process">Process</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="clock mono" title="Local time in Dubai (GST, UTC+4)"><i></i><span>DXB</span><span id="clock">--:--</span><span>GST</span></div>
+    <button class="theme mono" id="themeBtn" type="button" aria-label="Switch between day and night mode"><span class="knob"></span><span id="themeLabel">Night</span></button>
+    <a class="btn primary small magnetic" href="#contact" data-cursor="Let's talk">Get pre-approved</a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero wrap">
+    <div class="hero-top mono muted">
+      <span>Mortgage advisory · Dubai, UAE</span>
+      <span>25.2048° N · 55.2708° E</span>
+    </div>
+
+    <div class="wm" id="heroWm" aria-label="Imperial" role="img" data-cursor="Play">IMPERIAL</div>
+
+    <div class="hero-grid">
+      <div class="sub-mark">
+        <span class="mortgages">Mortgages</span>
+        <span class="ar" lang="ar">إمبريال للتمويل العقاري</span>
+      </div>
+      <div class="lede">
+        <h1>Keys to <span class="slot" id="slot" aria-live="polite"><span>Dubai Marina</span></span><br>financed properly.</h1>
+        <p>We compare offers from UAE banks, handle the paperwork and walk you from pre-approval to the Trustee office. For UAE nationals, residents and buyers overseas.</p>
+        <div class="cta-row">
+          <a class="btn primary magnetic" href="#calculator" data-cursor="Calculate">Calculate my payment <span class="arr">→</span></a>
+          <a class="btn magnetic" href="#contact" data-cursor="Say hi">Talk to an adviser</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="facts">
+      <div class="fact"><b data-count="80" data-suffix="%">80%</b><span>Maximum loan-to-value for residents buying a first home up to AED 5M</span></div>
+      <div class="fact"><b data-count="50" data-suffix="%">50%</b><span>Debt burden cap set by the UAE Central Bank on your monthly income</span></div>
+      <div class="fact"><b>AED 2M</b><span>Property value that opens the 10-year Golden Visa route</span></div>
+    </div>
+  </section>
+
+  <div class="ticker" aria-label="Indicative rates">
+    <div class="track" id="track">
+      <div class="item"><span class="mono">3-year fixed</span><b>from 3.89%</b></div><span class="star">✳</span>
+      <div class="item"><span class="mono">5-year fixed</span><b>from 4.09%</b></div><span class="star">✳</span>
+      <div class="item"><span class="mono">Variable</span><b>3M EIBOR + 1.49%</b></div><span class="star">✳</span>
+      <div class="item"><span class="mono">Non-resident</span><b>from 4.49%</b></div><span class="star">✳</span>
+      <div class="item"><span class="mono">Islamic profit rate</span><b>from 3.95%</b></div><span class="star">✳</span>
+      <div class="item"><span class="mono">Pre-approval</span><b>3–5 working days</b></div><span class="star">✳</span>
+    </div>
+  </div>
+  <div class="wrap"><span class="ticker-note mono">Indicative rates · subject to bank approval</span></div>
+
+  <!-- CALCULATOR -->
+  <section class="block wrap" id="calculator">
+    <div class="head">
+      <div>
+        <div class="eyebrow mono">Calculator</div>
+        <h2>Run the <em>numbers.</em></h2>
+      </div>
+      <p>Built on UAE rules: Central Bank loan-to-value caps, the 4% DLD transfer fee, mortgage registration and the 50% debt burden limit. Move a slider and everything updates.</p>
+    </div>
+
+    <div class="calc" id="calcBox">
+      <div class="tabs" role="tablist" aria-label="Calculator mode">
+        <button role="tab" id="tab-pay" aria-selected="true" aria-controls="panel-pay">Monthly payment</button>
+        <button role="tab" id="tab-afford" aria-selected="false" aria-controls="panel-afford">How much can I borrow?</button>
+      </div>
+
+      <div class="field" style="margin-bottom:28px">
+        <span class="mono muted">I am a</span>
+        <div class="seg" role="radiogroup" aria-label="Residency status" id="residency">
+          <button role="radio" aria-checked="false" data-v="national">UAE National</button>
+          <button role="radio" aria-checked="true" data-v="resident">UAE Resident</button>
+          <button role="radio" aria-checked="false" data-v="nonres">Non-resident</button>
+        </div>
+      </div>
+
+      <!-- Payment panel -->
+      <div class="calc-grid" id="panel-pay" role="tabpanel" aria-labelledby="tab-pay">
+        <div class="controls">
+          <div class="field">
+            <div class="top"><label for="price">Property price</label><output id="priceOut" for="price"></output></div>
+            <input type="range" id="price" min="500000" max="15000000" step="50000" value="2400000">
+          </div>
+          <div class="field">
+            <div class="top"><label for="down">Down payment</label><output id="downOut" for="down"></output></div>
+            <input type="range" id="down" min="20" max="70" step="1" value="20">
+            <small class="muted" id="ltvNote"></small>
+          </div>
+          <div class="field">
+            <div class="top"><label for="term">Loan term</label><output id="termOut" for="term"></output></div>
+            <input type="range" id="term" min="5" max="25" step="1" value="25">
+          </div>
+          <div class="field">
+            <div class="top"><label for="rate">Interest rate</label><output id="rateOut" for="rate"></output></div>
+            <input type="range" id="rate" min="2.5" max="7.5" step="0.01" value="3.99">
+          </div>
+        </div>
+
+        <div class="result">
+          <div class="big">
+            <span class="mono muted">Your monthly payment</span>
+            <div class="num" aria-live="polite"><small>AED</small><span id="monthly">0</span></div>
+          </div>
+          <div class="chips" id="chips"></div>
+          <div class="kv">
+            <div><span class="muted">Loan amount</span><b id="loanAmt">–</b></div>
+            <div><span class="muted">Loan-to-value</span><b id="ltvVal">–</b></div>
+            <div><span class="muted">Total interest</span><b id="interest">–</b></div>
+            <div><span class="muted">Total repaid</span><b id="repaid">–</b></div>
+          </div>
+          <div>
+            <div class="bar" aria-hidden="true"><span class="p" id="barP"></span><span class="i" id="barI"></span></div>
+            <div class="legend" style="margin-top:10px"><span><i style="background:#F3F4F1"></i>Principal</span><span><i style="background:#0B0B12"></i>Interest</span></div>
+          </div>
+          <div class="cash">
+            <h3>Cash you need on the day</h3>
+            <ul id="cashList"></ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Affordability panel -->
+      <div class="calc-grid" id="panel-afford" role="tabpanel" aria-labelledby="tab-afford" hidden>
+        <div class="controls">
+          <div class="field">
+            <div class="top"><label for="income">Monthly income</label><output id="incomeOut" for="income"></output></div>
+            <input type="range" id="income" min="15000" max="200000" step="1000" value="45000">
+          </div>
+          <div class="field">
+            <div class="top"><label for="debts">Existing monthly debts</label><output id="debtsOut" for="debts"></output></div>
+            <input type="range" id="debts" min="0" max="50000" step="500" value="3000">
+            <small class="muted">Car loans, personal loans, and 5% of your total credit card limits.</small>
+          </div>
+          <p class="muted" style="font-size:14px">Assessed over the loan term and interest rate from the payment tab, plus a 1.5% stress buffer that banks commonly apply.</p>
+        </div>
+        <div class="result">
+          <div class="big">
+            <span class="mono muted">You could buy up to</span>
+            <div class="num" aria-live="polite"><small>AED</small><span id="maxPrice">0</span></div>
+          </div>
+          <div class="kv">
+            <div><span class="muted">Max monthly payment (50% DBR)</span><b id="maxPmt">–</b></div>
+            <div><span class="muted">Max loan</span><b id="maxLoan">–</b></div>
+          </div>
+          <div><button class="btn" id="usePrice" type="button" style="border-color:#F3F4F1;color:#F3F4F1">Use this price in the payment tab <span class="arr">→</span></button></div>
+        </div>
+      </div>
+
+      <p class="calc-foot">Illustrative only and not a mortgage offer. Fees are typical Dubai amounts: DLD transfer 4% + AED 580, mortgage registration 0.25% of the loan + AED 290, Trustee office AED 4,200, valuation about AED 3,150.</p>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="block" id="services" style="padding-top:0">
+    <div class="wrap">
+      <div class="head">
+        <div>
+          <div class="eyebrow mono">Services</div>
+          <h2>What we <em>arrange.</em></h2>
+        </div>
+        <p>One adviser, every major UAE lender. Pick the route that fits your situation and we run the comparison.</p>
+      </div>
+    </div>
+    <div class="svc wrap">
+      <details>
+        <summary data-cursor="Open"><span class="n mono">Resident</span><span class="t">Resident mortgages</span><span class="plus">+</span></summary>
+        <div class="body"><span></span><p>For salaried and self-employed buyers living in the UAE. Up to 80% financing on a first home, fixed or variable, with salary transfer and non-salary-transfer options compared side by side.</p><ul><li>Fixed periods from 1 to 5 years</li><li>Self-employed: 2 years of audited financials or bank statements</li><li><strong>Employed:</strong> Minimum salary from AED 15,000 at most banks</li></ul></div>
+      </details>
+      <details>
+        <summary data-cursor="Open"><span class="n mono">Overseas</span><span class="t">Non-resident loans</span><span class="plus">+</span></summary>
+        <div class="body"><span></span><p>Buying in Dubai from London, Mumbai or Riyadh. We work with the banks that lend to overseas buyers and handle document attestation and remote signing.</p><ul><li>Typically up to 50–60% financing</li><li>Freehold areas only</li><li>Power of attorney for the transfer if you cannot fly in</li></ul></div>
+      </details>
+      <details>
+        <summary data-cursor="Open"><span class="n mono">Off-plan</span><span class="t">Handover finance</span><span class="plus">+</span></summary>
+        <div class="body"><span></span><p>Your off-plan unit is nearly complete and the final payment is due. We line up a mortgage in time for handover so the developer is paid and the title transfers to you.</p><ul><li>Pre-approval ahead of the completion notice</li><li>Valuation timed to handover</li></ul></div>
+      </details>
+      <details>
+        <summary data-cursor="Open"><span class="n mono">Switch</span><span class="t">Buyout &amp; refinance</span><span class="plus">+</span></summary>
+        <div class="body"><span></span><p>Your fixed period is ending, or another bank now offers a better rate. We check the early settlement fee (capped at 1% of the outstanding balance or AED 10,000, whichever is lower) against the savings before you move.</p><ul><li>Equity release on owned property</li><li>Rate-review reminders before your fix ends</li></ul></div>
+      </details>
+      <details>
+        <summary data-cursor="Open"><span class="n mono">Sharia</span><span class="t">Islamic home finance</span><span class="plus">+</span></summary>
+        <div class="body"><span></span><p>Ijara and Murabaha structures from Islamic banks and Islamic windows of conventional lenders, compared on the same basis as conventional mortgages.</p><ul><li>Profit rate instead of interest</li><li>Fixed and variable profit rates</li></ul></div>
+      </details>
+      <details>
+        <summary data-cursor="Open"><span class="n mono">Business</span><span class="t">Commercial property</span><span class="plus">+</span></summary>
+        <div class="body"><span></span><p>Offices, retail units and warehouses bought personally or through a company, including free-zone entities.</p><ul><li>Usually 50–60% financing</li><li>Company financials and trade licence required</li></ul></div>
+      </details>
+    </div>
+  </section>
+
+  <!-- DISTRICTS -->
+  <section class="block wrap" id="districts" style="padding-top:0">
+    <div class="head">
+      <div>
+        <div class="eyebrow mono">Districts</div>
+        <h2>Where are you <em>buying?</em></h2>
+      </div>
+      <p>Tap a district to load an example purchase price into the calculator.</p>
+    </div>
+    <div class="districts" id="districtList">
+      <button class="district" data-price="3200000" data-cursor="Calculate">Downtown<sup>DXB</sup></button>
+      <button class="district" data-price="2400000" data-cursor="Calculate">Dubai Marina</button>
+      <button class="district" data-price="8500000" data-cursor="Calculate">Palm Jumeirah</button>
+      <button class="district" data-price="3800000" data-cursor="Calculate">Dubai Hills</button>
+      <button class="district" data-price="1100000" data-cursor="Calculate">JVC</button>
+      <button class="district" data-price="1900000" data-cursor="Calculate">Business Bay</button>
+      <button class="district" data-price="2600000" data-cursor="Calculate">Creek Harbour</button>
+      <button class="district" data-price="4500000" data-cursor="Calculate">Arabian Ranches</button>
+      <button class="district" data-price="1500000" data-cursor="Calculate">Al Furjan</button>
+    </div>
+    <p class="dist-note muted mono">Example prices for a typical 1–3 bedroom home · for illustration only</p>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="block wrap" id="process" style="padding-top:0">
+    <div class="head">
+      <div>
+        <div class="eyebrow mono">Process</div>
+        <h2>From first call <em>to keys.</em></h2>
+      </div>
+      <p>Most purchases complete in four to six weeks from pre-approval. Here is what happens along the way.</p>
+    </div>
+    <div class="process">
+      <div class="stick"><div class="bignum" id="bignum">01</div><p class="mono muted" id="stepWhen">Day 1</p></div>
+      <div class="steps">
+        <article class="step on" data-n="01" data-when="Day 1">
+          <span class="mono">Discovery call</span>
+          <h3>We learn your numbers</h3>
+          <p>Income, residency, the property you have in mind and how long you plan to hold it. Twenty minutes by phone or WhatsApp, no charge.</p>
+        </article>
+        <article class="step" data-n="02" data-when="Days 2–5">
+          <span class="mono">Compare &amp; pre-approve</span>
+          <h3>Banks compete for you</h3>
+          <p>We compare rates, fees and settlement terms across lenders, then submit one clean application. Pre-approval is usually valid for 60 days.</p>
+        </article>
+        <article class="step" data-n="03" data-when="Days 6–15">
+          <span class="mono">Valuation &amp; offer</span>
+          <h3>The bank values the home</h3>
+          <p>Once you sign the MOU (Form F) with the seller, the bank sends a valuer and issues the final offer letter. We check every clause before you sign.</p>
+        </article>
+        <article class="step" data-n="04" data-when="Weeks 3–6">
+          <span class="mono">Transfer</span>
+          <h3>Keys at the Trustee office</h3>
+          <p>Manager's cheques are prepared, the DLD transfer is booked and the title deed is issued in your name the same day. We are there with you.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="block wrap" id="faq" style="padding-top:0">
+    <div class="faq">
+      <div>
+        <div class="eyebrow mono">FAQ</div>
+        <h2>Straight <em>answers.</em></h2>
+      </div>
+      <div>
+        <details open>
+          <summary>How much deposit do I need as an expat?</summary>
+          <p>At least 20% of the price for a first home up to AED 5 million, and 30% above that. UAE nationals need 15% and 25%. On top of the deposit, budget roughly 7% of the price for fees, including the 4% DLD transfer fee.</p>
+        </details>
+        <details>
+          <summary>Can I get a mortgage if I don't live in the UAE?</summary>
+          <p>Yes. Several banks lend to non-residents in freehold areas, usually up to 50–60% of the value. Expect to provide bank statements, proof of income and a credit report from your home country.</p>
+        </details>
+        <details>
+          <summary>What is the debt burden ratio?</summary>
+          <p>The Central Bank caps all your monthly debt repayments, including the new mortgage, at 50% of your monthly income. Our borrowing calculator uses this rule.</p>
+        </details>
+        <details>
+          <summary>Fixed or variable?</summary>
+          <p>Fixed rates hold for 1 to 5 years, then move to a variable rate linked to EIBOR plus a margin. Variable rates track EIBOR from day one. We model both over your expected holding period.</p>
+        </details>
+        <details>
+          <summary>What does your service cost?</summary>
+          <p>The initial consultation and comparison are free. Our fee is agreed in writing before we submit any application, so there are no surprises at transfer.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="wrap" id="contact" style="padding-bottom:clamp(40px,6vw,80px)">
+    <div class="contact">
+      <div>
+        <div class="eyebrow mono" style="color:#6B74FF">Contact</div>
+        <h2>Let's talk <em>keys.</em></h2>
+        <div class="lines">
+          <div><span class="mono">WhatsApp</span><span>+971 58 584 4383</span><button class="copy" type="button" data-copy="+971585844383">Copy</button></div>
+          <div><span class="mono">Office</span><span>04 452 8881</span><button class="copy" type="button" data-copy="044528881">Copy</button></div>
+          <div><span class="mono">Email</span><span>Info@imperialmortgages.ae</span><button class="copy" type="button" data-copy="Info@imperialmortgages.ae">Copy</button></div>
+          <div><span class="mono">Hours</span><span>Mon–Sat · 9:00–19:00 GST</span></div>
+        </div>
+      </div>
+      <div id="formWrap">
+        <form id="leadForm" novalidate>
+          <div class="in"><label for="f-name">Your name</label><input id="f-name" name="name" autocomplete="name" placeholder="Sara Al Mansoori"></div>
+          <div class="in"><label for="f-phone">Phone or WhatsApp</label><input id="f-phone" name="phone" type="tel" autocomplete="tel" placeholder="+971 5X XXX XXXX"></div>
+          <div class="row2">
+            <div class="in"><label for="f-res">Residency</label>
+              <select id="f-res" name="residency"><option>UAE Resident</option><option>UAE National</option><option>Non-resident</option></select></div>
+            <div class="in"><label for="f-budget">Budget</label>
+              <select id="f-budget" name="budget"><option>Under AED 1.5M</option><option selected>AED 1.5M – 3M</option><option>AED 3M – 5M</option><option>AED 5M – 10M</option><option>AED 10M +</option></select></div>
+          </div>
+          <p class="err" id="formErr" role="alert"></p>
+          <div><button class="btn primary magnetic" type="submit" data-cursor="Send">Request a call back <span class="arr">→</span></button></div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <div class="foot-grid">
+    <div><h4>Calculate</h4><a href="#calculator">Monthly payment</a><a href="#calculator">Borrowing power</a><a href="#districts">By district</a></div>
+    <div><h4>Services</h4><a href="#services">Resident mortgages</a><a href="#services">Non-resident loans</a><a href="#services">Islamic finance</a></div>
+    <div><h4>Company</h4><a href="#process">How it works</a><a href="#faq">FAQ</a><a href="#contact">Contact</a></div>
+    <div><h4>Dubai</h4><p class="muted" style="margin:0">Serving buyers across the UAE and overseas.</p></div>
+  </div>
+  <div class="wm foot" id="footWm" aria-hidden="true">IMPERIAL</div>
+  <div class="legal">
+    <span>© <span id="yr">2026</span> Imperial Mortgages. All rights reserved.</span>
+    <span>Rates and figures are indicative and subject to lender approval. Your property may be at risk if you do not keep up repayments.</span>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const $ = (s, c = document) => c.querySelector(s);
+  const $$ = (s, c = document) => [...c.querySelectorAll(s)];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = matchMedia('(pointer: fine)').matches;
+  const aed = n => Math.round(n).toLocaleString('en-US');
+  const store = {
+    get(k){ try { return localStorage.getItem(k) } catch(e){ return null } },
+    set(k,v){ try { localStorage.setItem(k,v) } catch(e){} }
+  };
+
+  /* ---------- theme ---------- */
+  const root = document.documentElement;
+  const isDark = () => root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+  const saved = store.get('im-theme');
+  if (saved) root.dataset.theme = saved;
+  const syncThemeLabel = () => { $('#themeLabel').textContent = isDark() ? 'Day' : 'Night'; };
+  syncThemeLabel();
+  $('#themeBtn').addEventListener('click', () => {
+    root.dataset.theme = isDark() ? 'light' : 'dark';
+    store.set('im-theme', root.dataset.theme);
+    syncThemeLabel();
+  });
+
+  /* ---------- Dubai clock ---------- */
+  const fmtTime = new Intl.DateTimeFormat('en-GB', { timeZone:'Asia/Dubai', hour:'2-digit', minute:'2-digit', hour12:false });
+  const tickClock = () => { $('#clock').textContent = fmtTime.format(new Date()); };
+  tickClock(); setInterval(tickClock, 15000);
+  $('#yr').textContent = new Date().getFullYear();
+
+  /* ---------- scroll progress ---------- */
+  const prog = $('#prog');
+  const onScroll = () => {
+    const h = document.documentElement.scrollHeight - innerHeight;
+    prog.style.transform = `scaleX(${h > 0 ? scrollY / h : 0})`;
+  };
+  addEventListener('scroll', onScroll, { passive:true }); onScroll();
+
+  /* ---------- stretchy wordmark ---------- */
+  function Wordmark(el, { idle = true, intro = true } = {}) {
+    const text = el.textContent.trim();
+    el.textContent = '';
+    const inner = document.createElement('span'); inner.className = 'inner';
+    const letters = [...text].map(ch => {
+      const s = document.createElement('span'); s.className = 'l'; s.textContent = ch; inner.appendChild(s);
+      return { el:s, w: intro && !reduce ? 50 : 100, g: intro && !reduce ? 100 : 800 };
+    });
+    el.appendChild(inner);
+    const set = (L, w, g) => { L.el.style.fontVariationSettings = `"wdth" ${w.toFixed(1)}, "wght" ${g.toFixed(0)}`; };
+    letters.forEach(L => set(L, L.w, L.g));
+
+    const fit = () => {
+      letters.forEach(L => set(L, 118, 800));
+      el.style.fontSize = '100px';
+      const w = inner.getBoundingClientRect().width;
+      const avail = el.clientWidth;
+      if (w > 0) el.style.fontSize = (100 * avail * 0.985 / w) + 'px';
+      letters.forEach(L => set(L, L.w, L.g));
+    };
+    let mx = null, active = false;
+    el.addEventListener('pointermove', e => { const r = el.getBoundingClientRect(); mx = (e.clientX - r.left) / r.width; active = true; });
+    el.addEventListener('pointerleave', () => { active = false; });
+
+    let visible = true;
+    new IntersectionObserver(([en]) => { visible = en.isIntersecting; }).observe(el);
+
+    const t0 = performance.now();
+    const loop = now => {
+      if (visible) {
+        const t = (now - t0) / 1000;
+        const n = letters.length;
+        let introDone = t > 1.2;
+        letters.forEach((L, i) => {
+          const cx = (i + .5) / n;
+          let inf;
+          if (active && mx !== null) {
+            const d = mx - cx; inf = Math.exp(-(d * d) / (2 * .09 * .09));
+          } else if (idle && introDone) {
+            inf = Math.pow(.5 + .5 * Math.sin(t * 1.1 - i * .55), 3) * .85;
+          } else inf = .35;
+          const tw = active ? 62 + 88 * inf : 85 + 45 * inf;
+          const tg = active ? 250 + 650 * inf : 700 + 200 * inf;
+          const k = t < 1.4 ? .06 : .12;
+          L.w += (tw - L.w) * k; L.g += (tg - L.g) * k;
+          set(L, L.w, L.g);
+        });
+      }
+      requestAnimationFrame(loop);
+    };
+    (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => {
+      fit();
+      if (!reduce) requestAnimationFrame(loop);
+      else letters.forEach(L => { L.w = 100; L.g = 800; set(L, 100, 800); });
+    });
+    addEventListener('resize', fit);
+    fit();
+  }
+  Wordmark($('#heroWm'));
+  Wordmark($('#footWm'), { idle:false, intro:false });
+
+  /* ---------- rotating district in headline ---------- */
+  const slot = $('#slot');
+  const words = ['Dubai Marina','Downtown','Palm Jumeirah','Dubai Hills','Business Bay','Creek Harbour'];
+  let wi = 0;
+  if (!reduce) setInterval(() => {
+    const cur = slot.querySelector('span:not(.out)');
+    wi = (wi + 1) % words.length;
+    const nx = document.createElement('span'); nx.className = 'wait'; nx.textContent = words[wi];
+    slot.appendChild(nx);
+    requestAnimationFrame(() => requestAnimationFrame(() => { nx.classList.remove('wait'); cur.classList.add('out'); }));
+    setTimeout(() => cur.remove(), 800);
+  }, 2600);
+
+  /* ---------- cursor ---------- */
+  if (fine && !reduce) {
+    const c = $('#cursor'), lab = $('#cursorLabel');
+    let x = innerWidth/2, y = innerHeight/2, cx = x, cy = y;
+    addEventListener('pointermove', e => { x = e.clientX; y = e.clientY;
+      const t = e.target.closest('[data-cursor]');
+      if (t) { lab.textContent = t.dataset.cursor; lab.style.opacity = 1; c.classList.add('big'); }
+      else { lab.style.opacity = 0; c.classList.remove('big'); }
+    });
+    const move = () => {
+      cx += (x - cx) * .2; cy += (y - cy) * .2;
+      c.style.transform = `translate(${cx}px, ${cy}px) translate(-50%,-50%)`;
+      lab.style.transform = `translate(${x + 18}px, ${y + 18}px)`;
+      requestAnimationFrame(move);
+    };
+    move();
+    /* magnetic buttons */
+    $$('.magnetic').forEach(b => {
+      b.addEventListener('pointermove', e => {
+        const r = b.getBoundingClientRect();
+        b.style.transform = `translate(${(e.clientX - r.left - r.width/2) * .25}px, ${(e.clientY - r.top - r.height/2) * .35}px)`;
+      });
+      b.addEventListener('pointerleave', () => { b.style.transform = ''; });
+      b.style.transition += ', transform .3s cubic-bezier(.2,.8,.2,1)';
+    });
+  }
+
+  /* ---------- ticker: duplicate for seamless loop ---------- */
+  const track = $('#track');
+  track.innerHTML += track.innerHTML;
+  $$('.item, .star', track).slice(track.children.length / 2).forEach(n => n.setAttribute('aria-hidden','true'));
+
+  /* ---------- calculator ---------- */
+  const S = { res:'resident' };
+  const el = id => document.getElementById(id);
+  const price = el('price'), down = el('down'), term = el('term'), rate = el('rate');
+  const income = el('income'), debts = el('debts');
+
+  const maxLTV = (res, p) => {
+    if (res === 'nonres') return .60;
+    const over = p > 5e6;
+    if (res === 'national') return over ? .75 : .85;
+    return over ? .70 : .80;
+  };
+  const ltvText = (res, p) => {
+    const pct = Math.round(maxLTV(res, p) * 100);
+    if (res === 'nonres') return `Most banks lend non-residents up to ${pct}% of the value.`;
+    const who = res === 'national' ? 'UAE nationals' : 'residents';
+    return `Central Bank cap for ${who} on a first home ${p > 5e6 ? 'above' : 'up to'} AED 5M: ${pct}% loan-to-value.`;
+  };
+  const fill = r => r.style.setProperty('--p', ((r.value - r.min) / (r.max - r.min) * 100) + '%');
+
+  const tweens = new WeakMap();
+  function countTo(node, to) {
+    if (reduce) { node.textContent = aed(to); return; }
+    const from = tweens.get(node) ?? 0; const start = performance.now(); const dur = 450;
+    tweens.set(node, to);
+    const step = now => {
+      const k = Math.min(1, (now - start) / dur); const e = 1 - Math.pow(1 - k, 3);
+      node.textContent = aed(from + (to - from) * e);
+      if (k < 1 && tweens.get(node) === to) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+  const pmt = (P, annual, years) => {
+    const r = annual / 1200, n = years * 12;
+    return r === 0 ? P / n : P * r / (1 - Math.pow(1 + r, -n));
+  };
+
+  function calc() {
+    const P = +price.value;
+    const minDown = Math.round((1 - maxLTV(S.res, P)) * 100);
+    down.min = minDown;
+    if (+down.value < minDown) down.value = minDown;
+    const d = +down.value / 100, T = +term.value, R = +rate.value;
+    const loan = P * (1 - d), m = pmt(loan, R, T), total = m * T * 12, int = total - loan;
+
+    el('priceOut').textContent = 'AED ' + aed(P);
+    el('downOut').textContent = `${down.value}% · AED ${aed(P * d)}`;
+    el('termOut').textContent = T + ' years';
+    el('rateOut').textContent = R.toFixed(2) + '%';
+    el('ltvNote').textContent = ltvText(S.res, P);
+    countTo(el('monthly'), m);
+    el('loanAmt').textContent = 'AED ' + aed(loan);
+    el('ltvVal').textContent = Math.round((1 - d) * 100) + '%';
+    el('interest').textContent = 'AED ' + aed(int);
+    el('repaid').textContent = 'AED ' + aed(total);
+    el('barP').style.width = (loan / total * 100) + '%';
+    el('barI').style.width = (int / total * 100) + '%';
+
+    const items = [
+      ['Down payment', P * d],
+      ['DLD transfer fee (4% + AED 580)', P * .04 + 580],
+      ['Mortgage registration (0.25% + AED 290)', loan * .0025 + 290],
+      ['Trustee office fee', 4200],
+      ['Bank valuation', 3150],
+      ['Bank arrangement fee (1% + VAT)', loan * .01 * 1.05],
+    ];
+    const cash = items.reduce((a, [, v]) => a + v, 0);
+    el('cashList').innerHTML = items.map(([k, v]) => `<li><span>${k}</span><b>AED ${aed(v)}</b></li>`).join('')
+      + `<li class="total"><span>Total cash needed</span><b>AED ${aed(cash)}</b></li>`;
+
+
+    const chips = [];
+    if (P >= 2e6) chips.push('<span class="chip gold">✦ Golden Visa eligible · property ≥ AED 2M</span>');
+    chips.push(`<span class="chip">${Math.round((cash - P * d) / P * 1000) / 10}% of price in fees</span>`);
+    el('chips').innerHTML = chips.join('');
+
+    [price, down, term, rate].forEach(fill);
+    afford();
+  }
+
+  function afford() {
+    const I = +income.value, D = +debts.value, T = +term.value, R = +rate.value + 1.5;
+    const maxP = Math.max(0, I * .5 - D);
+    const r = R / 1200, n = T * 12;
+    const loan = maxP * (1 - Math.pow(1 + r, -n)) / r;
+    let prop = loan / maxLTV(S.res, 1);
+    if (prop > 5e6) prop = Math.max(5e6, loan / maxLTV(S.res, 6e6));
+    el('incomeOut').textContent = 'AED ' + aed(I);
+    el('debtsOut').textContent = 'AED ' + aed(D);
+    el('maxPmt').textContent = 'AED ' + aed(maxP);
+    el('maxLoan').textContent = 'AED ' + aed(loan);
+    countTo(el('maxPrice'), prop);
+    S.maxProp = prop;
+    [income, debts].forEach(fill);
+  }
+
+  [price, down, term, rate].forEach(i => i.addEventListener('input', calc));
+  [income, debts].forEach(i => i.addEventListener('input', afford));
+
+  $$('#residency button').forEach(b => b.addEventListener('click', () => {
+    $$('#residency button').forEach(x => x.setAttribute('aria-checked', x === b));
+    S.res = b.dataset.v; calc();
+  }));
+
+  const tabs = $$('.tabs [role=tab]');
+  const showTab = id => tabs.forEach(t => {
+    const on = t.id === id; t.setAttribute('aria-selected', on);
+    el(t.getAttribute('aria-controls')).hidden = !on;
+  });
+  tabs.forEach(t => t.addEventListener('click', () => showTab(t.id)));
+
+  el('usePrice').addEventListener('click', () => {
+    price.value = Math.min(+price.max, Math.floor(S.maxProp / 50000) * 50000);
+    down.value = 0; calc(); showTab('tab-pay');
+  });
+
+  $$('.district').forEach(b => b.addEventListener('click', () => {
+    price.value = b.dataset.price; calc(); showTab('tab-pay');
+    el('calculator').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+    const box = el('calcBox'); box.classList.remove('flash'); void box.offsetWidth; box.classList.add('flash');
+  }));
+
+  calc();
+
+  /* ---------- count up facts ---------- */
+  if (!reduce) {
+    const io = new IntersectionObserver(es => es.forEach(en => {
+      if (!en.isIntersecting) return; io.unobserve(en.target);
+      const b = en.target, to = +b.dataset.count, suf = b.dataset.suffix || '', s = performance.now();
+      const f = now => { const k = Math.min(1, (now - s) / 1100); b.textContent = Math.round(to * (1 - Math.pow(1 - k, 3))) + suf; if (k < 1) requestAnimationFrame(f); };
+      requestAnimationFrame(f);
+    }), { threshold:.6 });
+    $$('[data-count]').forEach(b => io.observe(b));
+  }
+
+  /* ---------- process steps ---------- */
+  const big = el('bignum'), when = el('stepWhen');
+  const sio = new IntersectionObserver(es => es.forEach(en => {
+    if (!en.isIntersecting) return;
+    $$('.step').forEach(s => s.classList.toggle('on', s === en.target));
+    if (big.textContent !== en.target.dataset.n) {
+      big.textContent = en.target.dataset.n; when.textContent = en.target.dataset.when;
+      big.classList.add('pop'); setTimeout(() => big.classList.remove('pop'), 350);
+    }
+  }), { rootMargin:'-45% 0px -45% 0px' });
+  $$('.step').forEach(s => sio.observe(s));
+
+  /* ---------- copy buttons ---------- */
+  $$('.copy').forEach(b => b.addEventListener('click', () => {
+    const done = () => { b.textContent = 'Copied'; setTimeout(() => b.textContent = 'Copy', 1600); };
+    const fallback = () => { const r = document.createRange(); r.selectNodeContents(b.previousElementSibling); const s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = 'Selected'; setTimeout(() => b.textContent = 'Copy', 1600); };
+    try { navigator.clipboard.writeText(b.dataset.copy).then(done, fallback); } catch (e) { fallback(); }
+  }));
+
+  /* ---------- lead form ---------- */
+  // TODO: connect to your CRM or form backend (e.g. POST to an API endpoint) before launch.
+  el('leadForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const name = el('f-name').value.trim(), phone = el('f-phone').value.trim();
+    if (!name) { el('formErr').textContent = 'Add your name so we know who to ask for.'; el('f-name').focus(); return; }
+    if (phone.replace(/\D/g, '').length < 8) { el('formErr').textContent = 'Add a phone number with country code, for example +971 50 123 4567.'; el('f-phone').focus(); return; }
+    const first = name.split(' ')[0].replace(/[<>&"]/g, '');
+    el('formWrap').innerHTML = `<div class="thanks"><span class="mono" style="color:#6B74FF">Request received</span><b>Thanks, ${first}.</b><p style="opacity:.75">An adviser will contact you on WhatsApp within one working day, Monday to Saturday.</p></div>`;
+  });
+})();
+</script>
+</body>
+</html>
