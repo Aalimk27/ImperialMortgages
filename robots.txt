@@ -1,0 +1,5 @@
+# Imperial Mortgages — https://imperialmortgages.ae
+User-agent: *
+Allow: /
+
+Sitemap: https://imperialmortgages.ae/sitemap.xml
