@@ -806,14 +806,19 @@ footer{padding-block:clamp(56px,8vw,100px) 28px}
   const slot = $('#slot');
   const words = ['Dubai Marina','Downtown','Palm Jumeirah','Dubai Hills','Business Bay','Creek Harbour'];
   let wi = 0;
-  if (!reduce) setInterval(() => {
-    const cur = slot.querySelector('span:not(.out)');
+  const rotate = () => {
+    if (document.hidden) return;
+    while (slot.children.length > 1) slot.firstElementChild.remove();
+    const cur = slot.firstElementChild;
+    cur.className = '';
     wi = (wi + 1) % words.length;
     const nx = document.createElement('span'); nx.className = 'wait'; nx.textContent = words[wi];
     slot.appendChild(nx);
-    requestAnimationFrame(() => requestAnimationFrame(() => { nx.classList.remove('wait'); cur.classList.add('out'); }));
-    setTimeout(() => cur.remove(), 800);
-  }, 2600);
+    void nx.offsetWidth;
+    nx.className = ''; cur.className = 'out';
+    setTimeout(() => { if (cur.parentNode && slot.children.length > 1) cur.remove(); }, 750);
+  };
+  if (!reduce) setInterval(rotate, 2600);
 
   /* ---------- cursor ---------- */
   if (fine && !reduce) {
@@ -911,7 +916,6 @@ footer{padding-block:clamp(56px,8vw,100px) 28px}
       ['Mortgage registration (0.25% + AED 290)', loan * .0025 + 290],
       ['Trustee office fee', 4200],
       ['Bank valuation', 3150],
-      ['Bank arrangement fee (1% + VAT)', loan * .01 * 1.05],
     ];
     const cash = items.reduce((a, [, v]) => a + v, 0);
     el('cashList').innerHTML = items.map(([k, v]) => `<li><span>${k}</span><b>AED ${aed(v)}</b></li>`).join('')
