@@ -154,7 +154,6 @@ p{margin:0}
 }
 .wm .inner{display:inline-flex; white-space:nowrap}
 .wm .l{display:inline-block; font-weight:800; font-variation-settings:"wdth" 100, "wght" 800; will-change:font-variation-settings}
-.wm .l:nth-child(odd){color:var(--ink)}
 .hero-grid{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.45fr); gap:clamp(24px,5vw,80px); align-items:end}
 .sub-mark{display:flex; flex-direction:column; gap:14px}
 .sub-mark .mortgages{font-family:var(--display); font-weight:300; font-size:clamp(22px,3vw,40px); font-variation-settings:"wdth" 150; letter-spacing:.12em; text-transform:uppercase; line-height:1}
@@ -358,6 +357,70 @@ footer{padding-block:clamp(56px,8vw,100px) 28px}
   *,*::before,*::after{animation-duration:.001ms!important; animation-iteration-count:1!important; transition-duration:.001ms!important}
   html{scroll-behavior:auto}
 }
+
+/* whatsapp */
+.wa-float{
+  position:fixed; right:calc(16px + env(safe-area-inset-right,0px)); bottom:calc(16px + env(safe-area-inset-bottom,0px)); z-index:70;
+  display:flex; align-items:center; gap:10px; background:#25D366; color:#052E16; text-decoration:none;
+  border-radius:999px; padding:12px 18px 12px 14px; font-weight:700; font-size:15px;
+  box-shadow:0 10px 30px rgba(0,0,0,.28); transition:transform .25s ease;
+}
+.wa-float:hover{transform:translateY(-3px)}
+.wa-float svg{width:26px; height:26px; flex:none}
+.btn.wa{background:#25D366; border-color:#25D366; color:#052E16}
+.btn.wa:hover{background:#052E16; border-color:#052E16; color:#fff}
+.btn.wa svg{width:20px; height:20px; flex:none}
+.contact .lines a{text-decoration:none; border-bottom:1px solid color-mix(in srgb, var(--bg) 30%, transparent)}
+.contact .lines a:hover{border-bottom-color:currentColor}
+.tabs .sm{display:none}
+@media (hover:none){
+  .cursor,.cursor-label{display:none!important}
+  .svc details:not([open]):hover::before{transform:scaleY(0)}
+  .svc details:not([open]):hover summary{color:inherit}
+  .svc details:not([open]):hover .t{font-variation-settings:"wdth" 75; transform:none}
+}
+@media (max-width:600px){
+  section.block{padding-block:64px}
+  .head{margin-bottom:28px}
+  h2{font-size:clamp(44px,13vw,64px)}
+  .hero-top span:last-child{display:none}
+  .cta-row .btn{width:100%}
+  .facts{gap:18px; margin-top:36px}
+  .fact{display:grid; grid-template-columns:104px minmax(0,1fr); gap:14px; align-items:center}
+  .fact b{font-size:40px}
+  .fact span{margin-top:0; font-size:13.5px}
+  .calc{border-radius:20px; padding:18px 14px}
+  .tabs{display:grid; grid-template-columns:1fr 1fr; width:100%; margin-bottom:22px}
+  .tabs button{padding:11px 6px; font-size:14px}
+  .tabs .lg{display:none}
+  .tabs .sm{display:inline}
+  .controls{gap:20px}
+  input[type=range]{height:36px}
+  input[type=range]::-webkit-slider-thumb{width:28px; height:28px; margin-top:-12px}
+  input[type=range]::-moz-range-thumb{width:18px; height:18px}
+  .big .num{font-size:64px}
+  .kv{grid-template-columns:1fr 1fr; gap:12px 16px}
+  .kv b{font-size:14px}
+  .kv span{font-size:13px}
+  .cash{padding:16px 14px}
+  .cash li{font-size:13px}
+  .result .btn{width:100%}
+  .svc .n{display:none}
+  .svc summary{grid-template-columns:minmax(0,1fr) auto; padding-left:12px}
+  .svc .t{font-size:30px}
+  .svc details:hover .t, .svc details[open] .t{transform:none}
+  .district{font-size:40px}
+  .districts{gap:6px 18px}
+  .stick{display:none}
+  .steps{counter-reset:st}
+  .step{counter-increment:st; opacity:1; padding-block:26px}
+  .step .mono::before{content:"0" counter(st) " · "}
+  .contact{border-radius:20px; padding:26px 18px}
+  .contact .lines .mono{min-width:76px}
+  .wa-float{padding:14px}
+  .wa-float span{display:none}
+  footer{padding-bottom:112px}
+}
 </style>
 </head>
 <body>
@@ -438,7 +501,7 @@ footer{padding-block:clamp(56px,8vw,100px) 28px}
     <div class="calc" id="calcBox">
       <div class="tabs" role="tablist" aria-label="Calculator mode">
         <button role="tab" id="tab-pay" aria-selected="true" aria-controls="panel-pay">Monthly payment</button>
-        <button role="tab" id="tab-afford" aria-selected="false" aria-controls="panel-afford">How much can I borrow?</button>
+        <button role="tab" id="tab-afford" aria-selected="false" aria-controls="panel-afford"><span class="lg">How much can I borrow?</span><span class="sm">Borrowing power</span></button>
       </div>
 
       <div class="field" style="margin-bottom:28px">
@@ -492,6 +555,7 @@ footer{padding-block:clamp(56px,8vw,100px) 28px}
             <h3>Cash you need on the day</h3>
             <ul id="cashList"></ul>
           </div>
+          <div><a class="btn wa" id="waCalc" href="https://wa.me/971585844383" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.39-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.21 3.08c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35zM12.05 21.5h-.01a9.4 9.4 0 0 1-4.79-1.31l-.34-.2-3.56.93.95-3.47-.22-.36a9.42 9.42 0 0 1-1.44-5.02c0-5.2 4.23-9.43 9.44-9.43 2.52 0 4.89.98 6.67 2.77a9.37 9.37 0 0 1 2.76 6.67c0 5.2-4.23 9.43-9.44 9.43zm8.03-17.46A11.28 11.28 0 0 0 12.04.72C5.79.72.7 5.8.7 12.06c0 2 .52 3.95 1.52 5.67L.6 23.28l5.69-1.49a11.3 11.3 0 0 0 5.43 1.38h.01c6.25 0 11.34-5.09 11.34-11.34 0-3.03-1.18-5.88-3.32-8.02z"/></svg> Send these numbers on WhatsApp</a></div>
         </div>
       </div>
 
@@ -663,9 +727,9 @@ footer{padding-block:clamp(56px,8vw,100px) 28px}
         <div class="eyebrow mono" style="color:#6B74FF">Contact</div>
         <h2>Let's talk <em>keys.</em></h2>
         <div class="lines">
-          <div><span class="mono">WhatsApp</span><span>+971 58 584 4383</span><button class="copy" type="button" data-copy="+971585844383">Copy</button></div>
-          <div><span class="mono">Office</span><span>04 452 8881</span><button class="copy" type="button" data-copy="044528881">Copy</button></div>
-          <div><span class="mono">Email</span><span>Info@imperialmortgages.ae</span><button class="copy" type="button" data-copy="Info@imperialmortgages.ae">Copy</button></div>
+          <div><span class="mono">WhatsApp</span><a href="https://wa.me/971585844383?text=Hello%20Imperial%20Mortgages%2C%20I%27d%20like%20to%20speak%20to%20an%20adviser%20about%20a%20mortgage%20in%20Dubai." target="_blank" rel="noopener">+971 58 584 4383</a><button class="copy" type="button" data-copy="+971585844383">Copy</button></div>
+          <div><span class="mono">Office</span><a href="tel:+97144528881">04 452 8881</a><button class="copy" type="button" data-copy="044528881">Copy</button></div>
+          <div><span class="mono">Email</span><a href="mailto:Info@imperialmortgages.ae">Info@imperialmortgages.ae</a><button class="copy" type="button" data-copy="Info@imperialmortgages.ae">Copy</button></div>
           <div><span class="mono">Hours</span><span>Mon–Sat · 9:00–19:00 GST</span></div>
         </div>
       </div>
@@ -680,7 +744,8 @@ footer{padding-block:clamp(56px,8vw,100px) 28px}
               <select id="f-budget" name="budget"><option>Under AED 1.5M</option><option selected>AED 1.5M – 3M</option><option>AED 3M – 5M</option><option>AED 5M – 10M</option><option>AED 10M +</option></select></div>
           </div>
           <p class="err" id="formErr" role="alert"></p>
-          <div><button class="btn primary magnetic" type="submit" data-cursor="Send">Request a call back <span class="arr">→</span></button></div>
+          <div><button class="btn wa" type="submit"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.39-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.21 3.08c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35zM12.05 21.5h-.01a9.4 9.4 0 0 1-4.79-1.31l-.34-.2-3.56.93.95-3.47-.22-.36a9.42 9.42 0 0 1-1.44-5.02c0-5.2 4.23-9.43 9.44-9.43 2.52 0 4.89.98 6.67 2.77a9.37 9.37 0 0 1 2.76 6.67c0 5.2-4.23 9.43-9.44 9.43zm8.03-17.46A11.28 11.28 0 0 0 12.04.72C5.79.72.7 5.8.7 12.06c0 2 .52 3.95 1.52 5.67L.6 23.28l5.69-1.49a11.3 11.3 0 0 0 5.43 1.38h.01c6.25 0 11.34-5.09 11.34-11.34 0-3.03-1.18-5.88-3.32-8.02z"/></svg> Send via WhatsApp</button></div>
+          <p style="font-size:13px;opacity:.6">Opens WhatsApp with your details filled in. Tap Send and an adviser replies within one working day.</p>
         </form>
       </div>
     </div>
@@ -701,6 +766,8 @@ footer{padding-block:clamp(56px,8vw,100px) 28px}
   </div>
 </footer>
 
+<a class="wa-float" href="https://wa.me/971585844383?text=Hello%20Imperial%20Mortgages%2C%20I%27d%20like%20to%20speak%20to%20an%20adviser%20about%20a%20mortgage%20in%20Dubai." target="_blank" rel="noopener" aria-label="Chat with Imperial Mortgages on WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.39-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.21 3.08c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35zM12.05 21.5h-.01a9.4 9.4 0 0 1-4.79-1.31l-.34-.2-3.56.93.95-3.47-.22-.36a9.42 9.42 0 0 1-1.44-5.02c0-5.2 4.23-9.43 9.44-9.43 2.52 0 4.89.98 6.67 2.77a9.37 9.37 0 0 1 2.76 6.67c0 5.2-4.23 9.43-9.44 9.43zm8.03-17.46A11.28 11.28 0 0 0 12.04.72C5.79.72.7 5.8.7 12.06c0 2 .52 3.95 1.52 5.67L.6 23.28l5.69-1.49a11.3 11.3 0 0 0 5.43 1.38h.01c6.25 0 11.34-5.09 11.34-11.34 0-3.03-1.18-5.88-3.32-8.02z"/></svg><span>Chat on WhatsApp</span></a>
+
 <script>
 (() => {
   const $ = (s, c = document) => c.querySelector(s);
@@ -708,6 +775,9 @@ footer{padding-block:clamp(56px,8vw,100px) 28px}
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const fine = matchMedia('(pointer: fine)').matches;
   const aed = n => Math.round(n).toLocaleString('en-US');
+  const WA = '971585844383';
+  const waLink = msg => `https://wa.me/${WA}?text=${encodeURIComponent(msg)}`;
+  const resLabel = { national:'UAE National', resident:'UAE Resident', nonres:'Non-resident' };
   const store = {
     get(k){ try { return localStorage.getItem(k) } catch(e){ return null } },
     set(k,v){ try { localStorage.setItem(k,v) } catch(e){} }
@@ -927,6 +997,13 @@ footer{padding-block:clamp(56px,8vw,100px) 28px}
     chips.push(`<span class="chip">${Math.round((cash - P * d) / P * 1000) / 10}% of price in fees</span>`);
     el('chips').innerHTML = chips.join('');
 
+    el('waCalc').href = waLink(`Hello Imperial Mortgages, I'd like advice on these numbers:
+- Status: ${resLabel[S.res]}
+- Property price: AED ${aed(P)}
+- Down payment: ${down.value}% (AED ${aed(P * d)})
+- Term: ${T} years at ${R.toFixed(2)}%
+- Estimated monthly payment: AED ${aed(m)}`);
+
     [price, down, term, rate].forEach(fill);
     afford();
   }
@@ -1005,15 +1082,21 @@ footer{padding-block:clamp(56px,8vw,100px) 28px}
     try { navigator.clipboard.writeText(b.dataset.copy).then(done, fallback); } catch (e) { fallback(); }
   }));
 
-  /* ---------- lead form ---------- */
-  // TODO: connect to your CRM or form backend (e.g. POST to an API endpoint) before launch.
+  /* ---------- lead form: sends the enquiry through WhatsApp ---------- */
   el('leadForm').addEventListener('submit', e => {
     e.preventDefault();
     const name = el('f-name').value.trim(), phone = el('f-phone').value.trim();
     if (!name) { el('formErr').textContent = 'Add your name so we know who to ask for.'; el('f-name').focus(); return; }
     if (phone.replace(/\D/g, '').length < 8) { el('formErr').textContent = 'Add a phone number with country code, for example +971 50 123 4567.'; el('f-phone').focus(); return; }
+    const url = waLink(`Hello Imperial Mortgages, I'd like a call back.
+- Name: ${name}
+- Phone: ${phone}
+- Residency: ${el('f-res').value}
+- Budget: ${el('f-budget').value}`);
+    const w = window.open(url, '_blank');
+    if (!w) location.href = url;
     const first = name.split(' ')[0].replace(/[<>&"]/g, '');
-    el('formWrap').innerHTML = `<div class="thanks"><span class="mono" style="color:#6B74FF">Request received</span><b>Thanks, ${first}.</b><p style="opacity:.75">An adviser will contact you on WhatsApp within one working day, Monday to Saturday.</p></div>`;
+    el('formWrap').innerHTML = `<div class="thanks"><span class="mono" style="color:#6B74FF">Almost done</span><b>Thanks, ${first}.</b><p style="opacity:.75">WhatsApp has opened with your details. Tap Send and an adviser will reply within one working day.</p><div><a class="btn wa" href="${url}" target="_blank" rel="noopener">Open WhatsApp again</a></div></div>`;
   });
 })();
 </script>
